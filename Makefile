@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -lncursesw -I${INCDIR} -g -Wall
+CFLAGS = -lncursesw -lm -I${INCDIR} -g -Wall
 
 INCDIR = ./inc/
 SRCDIR = ./src/
