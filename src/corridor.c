@@ -27,7 +27,9 @@ static bool is_valid_corridor(uint8_t sy, uint8_t ey, uint8_t sx, uint8_t ex, ui
 
   for (uint8_t y = sy; y <= ey; y++) {
     for (uint8_t x = sx; x <= ex; x++) {
-      if (m->gr[y * WIDTH + x]->gv == 0) c++;
+      if (y * WIDTH + x > 0 && y * WIDTH + x < HEIGHT * WIDTH - 1) {
+        if (m->gr[y * WIDTH + x]->gv == 0) c++;
+      }
     }
   }
 
