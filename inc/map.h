@@ -15,8 +15,8 @@ typedef struct map {
   grid **gr;
   uint16_t *pt;     //path arr
   uint16_t spt;     //path size
-  uint16_t *dr;      //door arr
-  uint16_t sdr;      //door size
+  uint16_t *dr;     //door arr
+  uint16_t sdr;     //door size
 } map;
 
 void set_grid_door(uint8_t y, uint8_t x, uint8_t drv, uint8_t drd);
