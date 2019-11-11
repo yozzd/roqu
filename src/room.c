@@ -25,6 +25,65 @@ static void fill_room(uint8_t y1, uint8_t x1, uint8_t y2, uint8_t x2) {
   }
 }
 
+static bool is_valid_room(uint8_t y1, uint8_t x1, uint8_t y2, uint8_t x2) {
+  uint8_t t = 0, c = 0;
+
+  for (uint8_t y = y1; y <= y2; y++) {
+    for (uint8_t x = x1; x <= x2; x++) {
+      t++;
+      if (m->gr[y * WIDTH + x]->gv == 0) c++;
+    }
+  }
+
+  if (t == c) return true;
+  else return false;
+}
+
+void create_room(void) {
+  uint16_t id;
+  uint8_t len, h, w, y1, x1, y2, x2;
+
+  do {
+    id = random_pick_grid(m->dr, m->sdr);
+  } while(m->gr[id]->drv == 3);
+
+  h = get_uniform_bound(room_h[0], room_h[1]);
+  w = get_uniform_bound(room_w[0], room_w[1]);
+
+  if (m->gr[id]->drd == 0) {
+    len = m->gr[id]->x - floor(get_uniform() * w);
+    y1 = m->gr[id]->y - h;
+    x1 = len - 1;
+    y2 = m->gr[id]->y - 1;
+    x2 = len + w;
+  } else if (m->gr[id]->drd == 1) {
+    len = m->gr[id]->y - floor(get_uniform() * h);
+    y1 = len - 1;
+    x1 = m->gr[id]->x + 1;
+    y2 = len + h;
+    x2 = m->gr[id]->x + w;
+  } else if (m->gr[id]->drd == 2) {
+    len = m->gr[id]->x - floor(get_uniform() * w);
+    y1 = m->gr[id]->y + 1;
+    x1 = len - 1;
+    y2 = m->gr[id]->y + h;
+    x2 = len + w;
+  } else {
+    len = m->gr[id]->y - floor(get_uniform() * h);
+    y1 = len - 1;
+    x1 = m->gr[id]->x - w;
+    y2 = len + h;
+    x2 = m->gr[id]->x - 1;
+  }
+
+  if(is_valid_room(y1, x1, y2, x2)) {
+    fill_room(y1, x1, y2, x2);
+    m->gr[id]->drv = 0;
+    m->gr[id]->drd = 4;
+    set_door_candidate(y1, x1, y2, x2);
+  }
+}
+
 void first_room(void) {
   uint8_t cy, cx, h, w, y1, x1, y2, x2;
 
