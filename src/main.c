@@ -13,7 +13,11 @@ int main(void) {
   init_ui();
   update_ui();
 
-  free_player();
-  free_map();
+  while(p->quit != true) {
+    keymap();
+    update_ui();
+  }
+  shutdown_ui();
+
   return 0;
 }

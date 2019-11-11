@@ -5,6 +5,24 @@
 WINDOW * win[3];
 int offset_y, offset_x;
 
+
+void keymap(void) {
+  int c = wgetch(win[0]);
+
+  if (c == 'q') p->quit = true;
+}
+
+void shutdown_ui(void) {
+  free_player();
+  free_map();
+
+  delwin(win[0]);
+  delwin(win[1]);
+  delwin(win[2]);
+
+  endwin();
+}
+
 static void viewport_ui(int cy, int cx) {
   uint32_t vy, vx;
 
@@ -28,7 +46,7 @@ void update_ui(void) {
   wborder(win[0], 0, 0, 0, 0, 0, 0, 0, 0);
   wborder(win[1], 0, 0, 0, 0, 0, 0, 0, 0);
   wborder(win[2], 0, 0, 0, 0, 0, 0, 0, 0);
-  mvwprintw(win[2], 1, 1, "Log");
+  mvwprintw(win[2], 1, 1, "y=%d,x=%d,vy=%d,vx=%d",p->y,p->x,p->vy,p->vx);
 
   viewport_ui(p->vy, p->vx);
 

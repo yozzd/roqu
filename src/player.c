@@ -12,9 +12,9 @@ static void put_player(void) {
   else if (p->y >= HEIGHT - border_y) p->vy = HEIGHT - border_y;
   else p->vy = p->y;
 
-  if (p->x <= border_x) p->vy = border_x;
-  else if (p->x > WIDTH - border_x) p->vy = WIDTH - border_x;
-  else p->vy = p->x;
+  if (p->x <= border_x) p->vx = border_x;
+  else if (p->x > WIDTH - border_x) p->vx = WIDTH - border_x;
+  else p->vx = p->x;
 }
 
 void free_player(void) {
@@ -27,14 +27,14 @@ void init_player(void) {
   p = malloc(sizeof(player));
   id = random_pick_path();
 
+  m->gr[id]->gv = 5;
+
   p->name = "Orcbolg";
   p->y = m->gr[id]->y;
   p->x = m->gr[id]->x;
   p->hp = 100;
   p->vision = 4;
   p->quit = false;
-
-  m->gr[id]->gv = 5;
 
   put_player();
 }
