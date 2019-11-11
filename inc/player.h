@@ -5,7 +5,7 @@ typedef struct player {
   char *name;
   uint32_t pos;       //position
   uint16_t hp, vision;
-  uint16_t vpy, vpx;  //viewport
+  uint16_t vpos;  //viewport
   bool quit;
 } player;
 

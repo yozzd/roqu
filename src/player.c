@@ -13,6 +13,7 @@ void init_player(void) {
 
   p->name = "Orcbolg";
   p->pos = random_pick_path();
+  p->vpos = p->pos;
   p->hp = 100;
   p->vision = 4;
   p->quit = false;
