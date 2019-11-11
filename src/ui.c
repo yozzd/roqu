@@ -1,6 +1,7 @@
 #include "base.h"
 #include "map.h"
 #include "player.h"
+#include "colors.h"
 
 WINDOW * win[3];
 uint8_t offset_y, offset_x;
@@ -35,7 +36,9 @@ static void viewport_ui(int cy, int cx) {
   for (uint8_t dy = 1; dy < (W1_NLINES - 1); dy++) {
     vx = cx - ((W1_NCOLS - 2) / 2);
     for (uint8_t dx = 1; dx < (W1_NCOLS - 1); dx++) {
+      wattron(win[0], COLOR_PAIR(m->gr[vy * WIDTH + vx]->co));
       mvwprintw(win[0], dy, dx, "%lc", print_map(vy, vx));
+      wattroff(win[0], COLOR_PAIR(m->gr[vy * WIDTH + vx]->co));
       vx++;
     }
     vy++;
@@ -46,6 +49,8 @@ void update_ui(void) {
   werase(win[0]);
   werase(win[1]);
   werase(win[2]);
+
+  color_init();
 
   wborder(win[0], 0, 0, 0, 0, 0, 0, 0, 0);
   wborder(win[1], 0, 0, 0, 0, 0, 0, 0, 0);

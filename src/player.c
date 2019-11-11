@@ -1,11 +1,16 @@
 #include "base.h"
 #include "map.h"
 #include "player.h"
+#include "fov.h"
 
 player * p;
 
 uint8_t border_y = (HEIGHT - (HEIGHT - W1_NLINES + 2)) / 2;
 uint8_t border_x = (WIDTH - (WIDTH - W1_NCOLS + 2)) / 2;
+
+void player_color(uint16_t id) {
+  m->gr[id]->co = 2;
+}
 
 static void scroll_map(void) {
   if (p->y < p->vy - (W1_NLINES / 2 - 3)) {
@@ -39,6 +44,7 @@ void move_player(uint8_t y, uint8_t x, uint8_t cy, uint8_t cx) {
     p->x += cx;
   }
 
+  fov(p->x, p->y, p->vision);
   scroll_map();
 }
 
@@ -72,4 +78,6 @@ void init_player(void) {
   m->gr[id]->gv = 5;
 
   put_player();
+  player_color(id);
+  fov(p->x, p->y, p->vision);
 }

@@ -10,6 +10,7 @@ typedef struct player {
   bool quit;
 } player;
 
+void player_color(uint16_t id);
 void move_player(uint8_t y, uint8_t x, uint8_t cy, uint8_t cx);
 void free_player(void);
 void init_player(void);

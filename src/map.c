@@ -3,8 +3,19 @@
 #include "map.h"
 #include "room.h"
 #include "charset.h"
+#include "player.h"
 
 map *m;
+
+void reset_grid_visibility(void) {
+  for (uint16_t i = 0; i < HEIGHT * WIDTH; i++) {
+    m->gr[i]->vb = 0;
+
+    if (m->gr[i]->vb && m->gr[i]->vt && m->gr[i]->gv == 5) player_color(i);
+    else if (m->gr[i]->vb && m->gr[i]->vt && m->gr[i]->gv != 5) m->gr[i]->co = 2;
+    else if (!m->gr[i]->vb && m->gr[i]->vt && m->gr[i]->gv != 5) m->gr[i]->co = 3;
+  }
+}
 
 wchar_t print_map(uint8_t y, uint8_t x) {
   if (y < 0 || x < 0 || y >= HEIGHT || x >= WIDTH) return charset[0];
@@ -32,6 +43,7 @@ void new_map(void) {
     m->gr[i]->gv = 0;
     m->gr[i]->vb = 0;
     m->gr[i]->vt = 0;
+    m->gr[i]->co = 1;
 
     if (m->gr[i]->y == 0 || m->gr[i]->y == HEIGHT - 1
         || m->gr[i]->x == 0 || m->gr[i]->x == WIDTH - 1) m->gr[i]->gv = 1;
