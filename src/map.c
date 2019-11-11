@@ -6,6 +6,8 @@
 #include "player.h"
 
 map *m;
+uint8_t dir[8][2] = {{-1, 0}, {0, 1}, {1, 0}, {0, -1},
+                    {-1, 1}, {1, 1}, {1, -1}, {-1, -1}};
 
 void reset_grid_visibility(void) {
   for (uint16_t i = 0; i < HEIGHT * WIDTH; i++) {
@@ -54,6 +56,20 @@ void new_map(void) {
   m->spt = 0;
 }
 
+static void make_walls(void) {
+  for (uint8_t y = 0; y < HEIGHT; y++) {
+    for (uint8_t x = 0; x < WIDTH; x++) {
+      for (uint8_t i = 0; i < 8; i++) {
+        uint8_t yy = y + dir[i][0], xx = x + dir[i][1];
+
+        if (m->gr[y * WIDTH + x]->gv == 2 && m->gr[yy * WIDTH + xx]->gv == 0) {
+          m->gr[yy * WIDTH + xx]->gv = 1;
+        }
+      }
+    }
+  }
+}
+
 void free_map(void) {
   for (uint16_t i = 0; i < HEIGHT * WIDTH; i++) {
     free(m->gr[i]);
@@ -67,4 +83,5 @@ void free_map(void) {
 void init_map(void) {
   new_map();
   first_room();
+  make_walls();
 }
