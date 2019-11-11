@@ -50,7 +50,7 @@ void update_ui(void) {
   wborder(win[0], 0, 0, 0, 0, 0, 0, 0, 0);
   wborder(win[1], 0, 0, 0, 0, 0, 0, 0, 0);
   wborder(win[2], 0, 0, 0, 0, 0, 0, 0, 0);
-  mvwprintw(win[2], 1, 1, "y=%d,x=%d,vy=%d,vx=%d",p->y,p->x,p->vy,p->vx);
+  mvwprintw(win[2], 1, 1, "y=%d,x=%d,vy=%d,vx=%d,s=%d",p->y,p->x,p->vy,p->vx,m->spt);
 
   viewport_ui(p->vy, p->vx);
 

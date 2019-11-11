@@ -32,6 +32,10 @@ void new_map(void) {
     m->gr[i]->gv = 0;
     m->gr[i]->vb = 0;
     m->gr[i]->vt = 0;
+
+    if (m->gr[i]->y == 0 || m->gr[i]->y == HEIGHT - 1
+        || m->gr[i]->x == 0 || m->gr[i]->x == WIDTH - 1) m->gr[i]->gv = 1;
+    else m->gr[i]->gv = 0;
   }
 
   m->pt = malloc(sizeof(int) * 2);

@@ -30,6 +30,10 @@ void first_room(void) {
   x1 = cx - floor(get_uniform() * w);
   y2 = y1 + h - 1;
   x2 = x1 + w - 1;
+  //y1 = 1;
+  //x1 = 1;
+  //y2 = 64;
+  //x2 = 196;
 
   fill_room(y1, x1, y2, x2);
 }
