@@ -1,8 +1,16 @@
 #include "base.h"
+#include "rng.h"
 #include "map.h"
 #include "room.h"
 
 map *m;
+
+uint32_t random_pick_path(void) {
+  uint32_t id;
+
+  id = get_uniform_bound(0, m->spt - 1);
+  return m->pt[id];
+}
 
 void new_map(void) {
   m = malloc(sizeof(map));
@@ -31,5 +39,5 @@ void free_map(void) {
 
 void init_map(void) {
   new_map();
-  first_room(m);
+  first_room();
 }

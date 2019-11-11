@@ -1,6 +1,6 @@
 #ifndef ROOM_H
 #define ROOM_H
 
-void first_room(map *m);
+void first_room(void);
 
 #endif

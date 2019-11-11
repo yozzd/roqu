@@ -13,7 +13,10 @@ typedef struct map {
   uint32_t spt;   //path size
 } map;
 
+uint32_t random_pick_path(void);
 void free_map(void);
 void init_map(void);
+
+extern map *m;
 
 #endif

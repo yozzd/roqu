@@ -5,7 +5,7 @@
 static uint8_t room_h[2] = {4, 5};
 static uint8_t room_w[2] = {4, 9};
 
-static void fill_room(map *m, uint16_t y1, uint16_t x1, uint16_t y2, uint16_t x2) {
+static void fill_room(uint16_t y1, uint16_t x1, uint16_t y2, uint16_t x2) {
   for (uint16_t y = y1; y <= y2; y++) {
     for (uint16_t x = x1; x <= x2; x++) {
       m->gr[y * WIDTH + x]->gv = 2;
@@ -17,7 +17,7 @@ static void fill_room(map *m, uint16_t y1, uint16_t x1, uint16_t y2, uint16_t x2
   }
 }
 
-void first_room(map *m) {
+void first_room(void) {
   uint16_t cy, cx, h, w, y1, x1, y2, x2;
 
   cy = floor(HEIGHT / 2);
@@ -31,5 +31,5 @@ void first_room(map *m) {
   y2 = y1 + h - 1;
   x2 = x1 + w - 1;
 
-  fill_room(m, y1, x1, y2, x2);
+  fill_room(y1, x1, y2, x2);
 }
