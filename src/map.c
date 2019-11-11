@@ -2,6 +2,7 @@
 #include "rng.h"
 #include "map.h"
 #include "room.h"
+#include "corridor.h"
 #include "charset.h"
 #include "player.h"
 
@@ -13,15 +14,9 @@ void set_grid_door(uint8_t y, uint8_t x, uint8_t drv, uint8_t drd) {
   m->gr[y * WIDTH + x]->drv = drv;
   m->gr[y * WIDTH + x]->drd = drd;
 
-  if (drv == 3) {
-    if (m->srd >= 2) m->rd = realloc(m->rd, sizeof(m->rd) * m->srd + 1);
-    m->rd[m->srd] = y * WIDTH + x;
-    m->srd++;
-  } else {
-    if (m->scd >= 2) m->cd = realloc(m->cd, sizeof(m->cd) * m->scd + 1);
-    m->cd[m->scd] = y * WIDTH + x;
-    m->scd++;
-  }
+  if (m->sdr >= 2) m->dr = realloc(m->dr, sizeof(m->dr) * m->sdr + 1);
+  m->dr[m->sdr] = y * WIDTH + x;
+  m->sdr++;
 }
 
 void reset_grid_visibility(void) {
@@ -39,11 +34,11 @@ wchar_t print_map(uint8_t y, uint8_t x) {
   else return charset[m->gr[y * WIDTH + x]->gv];
 }
 
-uint16_t random_pick_path(void) {
+uint16_t random_pick_grid(uint16_t *arr, uint16_t size) {
   uint16_t id;
 
-  id = get_uniform_bound(0, m->spt - 1);
-  return m->pt[id];
+  id = get_uniform_bound(0, size - 1);
+  return arr[id];
 }
 
 void new_map(void) {
@@ -72,10 +67,9 @@ void new_map(void) {
 
   m->pt = malloc(sizeof(int) * 2);
   m->spt = 0;
-  m->rd = malloc(sizeof(int) * 2);
-  m->srd = 0;
-  m->cd = malloc(sizeof(int) * 2);
-  m->scd = 0;
+
+  m->dr = malloc(sizeof(int) * 2);
+  m->sdr = 0;
 }
 
 static void make_walls(void) {
@@ -98,8 +92,7 @@ void free_map(void) {
   }
 
   free(m->pt);
-  free(m->rd);
-  free(m->cd);
+  free(m->dr);
   free(m->gr);
   free(m);
 }
@@ -107,5 +100,9 @@ void free_map(void) {
 void init_map(void) {
   new_map();
   first_room();
+  create_corridor();
+  create_corridor();
+  create_corridor();
+
   make_walls();
 }

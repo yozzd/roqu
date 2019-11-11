@@ -66,7 +66,7 @@ void init_player(void) {
   uint16_t id;
 
   p = malloc(sizeof(player));
-  id = random_pick_path();
+  id = random_pick_grid(m->pt, m->spt);
 
   p->name = "Orcbolg";
   p->y = m->gr[id]->y;
