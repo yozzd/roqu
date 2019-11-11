@@ -32,6 +32,4 @@ void free_map(void) {
 void init_map(void) {
   new_map();
   first_room(m);
-
-  free_map();
 }

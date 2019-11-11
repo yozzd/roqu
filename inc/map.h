@@ -13,6 +13,7 @@ typedef struct map {
   uint32_t spt;   //path size
 } map;
 
+void free_map(void);
 void init_map(void);
 
 #endif
