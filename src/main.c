@@ -11,6 +11,7 @@ int main(void) {
   init_player();
 
   init_ui();
+  update_ui();
 
   free_player();
   free_map();
