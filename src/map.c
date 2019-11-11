@@ -1,26 +1,26 @@
 #include "base.h"
 #include "map.h"
 
-map_s *m;
+map *m;
 
 void new_map(void) {
-  m = malloc(sizeof(map_s));
+  m = malloc(sizeof(map));
 
-  m->grid = malloc(sizeof(grid_s) * HEIGHT * WIDTH * 2);
+  m->g = malloc(sizeof(grid) * HEIGHT * WIDTH * 2);
   for (int i = 0; i < HEIGHT * WIDTH; i++) {
-    m->grid[i] = malloc(sizeof(grid_s));
-    m->grid[i]->value = 0;
-    m->grid[i]->visible = 0;
-    m->grid[i]->visited = 0;
+    m->g[i] = malloc(sizeof(grid));
+    m->g[i]->gv = 0;
+    m->g[i]->vb = 0;
+    m->g[i]->vt = 0;
   }
 }
 
 void free_map(void) {
   for (int i = 0; i < HEIGHT * WIDTH; i++) {
-    free(m->grid[i]);
+    free(m->g[i]);
   }
 
-  free(m->grid);
+  free(m->g);
   free(m);
 }
 

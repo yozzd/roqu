@@ -1,14 +1,15 @@
 #ifndef MAP_H
 #define MAP_H
 
-typedef struct grid_s {
-  uint16_t value;
-  bool visible, visited;
-} grid_s;
+typedef struct grid {
+  uint16_t gv;    //grid value
+  bool vb;        //visible
+  bool vt;        //visited
+} grid;
 
-typedef struct map_s {
-  grid_s **grid;
-} map_s;
+typedef struct map {
+  grid **g;
+} map;
 
 void init_map(void);
 
