@@ -1,6 +1,6 @@
 #include "base.h"
-#include "map.h"
 #include "rng.h"
+#include "map.h"
 
 static uint8_t room_h[2] = {4, 5};
 static uint8_t room_w[2] = {4, 9};

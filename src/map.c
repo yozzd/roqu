@@ -53,8 +53,8 @@ void new_map(void) {
     m->gr[i]->y = n - 1;
     m->gr[i]->x = i - (n - 1) * WIDTH;
     m->gr[i]->gv = 0;
-    m->gr[i]->vb = 0;
-    m->gr[i]->vt = 0;
+    m->gr[i]->vb = 1;
+    m->gr[i]->vt = 1;
     m->gr[i]->co = 1;
     m->gr[i]->type = 0;
     m->gr[i]->drv = 0;

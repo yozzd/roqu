@@ -52,7 +52,7 @@ void update_ui(void) {
 
   color_init();
 
-  //mvwprintw(win[2], 1, 1, "y=%d,x=%d,vy=%d,vx=%d,s=%d",p->y,p->x,p->vy,p->vx,m->spt);
+  mvwprintw(win[2], 1, 1, "y=%d,x=%d",p->y,p->x);
 
   viewport_ui(p->vy, p->vx);
 
