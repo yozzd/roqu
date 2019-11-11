@@ -7,6 +7,7 @@ typedef struct grid {
   bool vb;        //visible
   bool vt;        //visited
   uint8_t co;     //color
+  uint8_t type;   //1:room, 2:corridor
 } grid;
 
 typedef struct map {

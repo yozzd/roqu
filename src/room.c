@@ -9,6 +9,7 @@ static void fill_room(uint8_t y1, uint8_t x1, uint8_t y2, uint8_t x2) {
   for (uint8_t y = y1; y <= y2; y++) {
     for (uint8_t x = x1; x <= x2; x++) {
       m->gr[y * WIDTH + x]->gv = 2;
+      m->gr[y * WIDTH + x]->type = 1;
 
       if (m->spt >= 2) m->pt = realloc(m->pt, sizeof(m->pt) * m->spt + 1);
       m->pt[m->spt] = y * WIDTH + x;
