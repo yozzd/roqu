@@ -8,7 +8,9 @@ typedef struct grid {
 } grid;
 
 typedef struct map {
-  grid **g;
+  grid **gr;
+  uint32_t *pt;   //path
+  uint32_t spt;   //path size
 } map;
 
 void init_map(void);
