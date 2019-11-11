@@ -9,6 +9,21 @@ map *m;
 uint8_t dir[8][2] = {{-1, 0}, {0, 1}, {1, 0}, {0, -1},
                     {-1, 1}, {1, 1}, {1, -1}, {-1, -1}};
 
+void set_grid_door(uint8_t y, uint8_t x, uint8_t drv, uint8_t drd) {
+  m->gr[y * WIDTH + x]->drv = drv;
+  m->gr[y * WIDTH + x]->drd = drd;
+
+  if (drv == 3) {
+    if (m->srd >= 2) m->rd = realloc(m->rd, sizeof(m->rd) * m->srd + 1);
+    m->rd[m->srd] = y * WIDTH + x;
+    m->srd++;
+  } else {
+    if (m->scd >= 2) m->cd = realloc(m->cd, sizeof(m->cd) * m->scd + 1);
+    m->cd[m->scd] = y * WIDTH + x;
+    m->scd++;
+  }
+}
+
 void reset_grid_visibility(void) {
   for (uint16_t i = 0; i < HEIGHT * WIDTH; i++) {
     m->gr[i]->vb = 0;
@@ -47,6 +62,8 @@ void new_map(void) {
     m->gr[i]->vt = 0;
     m->gr[i]->co = 1;
     m->gr[i]->type = 0;
+    m->gr[i]->drv = 0;
+    m->gr[i]->drd = 4;
 
     if (m->gr[i]->y == 0 || m->gr[i]->y == HEIGHT - 1
         || m->gr[i]->x == 0 || m->gr[i]->x == WIDTH - 1) m->gr[i]->gv = 1;
@@ -55,6 +72,10 @@ void new_map(void) {
 
   m->pt = malloc(sizeof(int) * 2);
   m->spt = 0;
+  m->rd = malloc(sizeof(int) * 2);
+  m->srd = 0;
+  m->cd = malloc(sizeof(int) * 2);
+  m->scd = 0;
 }
 
 static void make_walls(void) {
@@ -77,6 +98,8 @@ void free_map(void) {
   }
 
   free(m->pt);
+  free(m->rd);
+  free(m->cd);
   free(m->gr);
   free(m);
 }
