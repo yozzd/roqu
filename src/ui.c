@@ -3,13 +3,17 @@
 #include "player.h"
 
 WINDOW * win[3];
-int offset_y, offset_x;
+uint8_t offset_y, offset_x;
 
 
 void keymap(void) {
   int c = wgetch(win[0]);
 
   if (c == 'q') p->quit = true;
+  else if(c =='j') move_player(p->y, p->x, 1, 0);
+  else if(c =='k') move_player(p->y, p->x, -1, 0);
+  else if(c =='h') move_player(p->y, p->x, 0, -1);
+  else if(c =='l') move_player(p->y, p->x, 0, 1);
 }
 
 void shutdown_ui(void) {
@@ -24,7 +28,7 @@ void shutdown_ui(void) {
 }
 
 static void viewport_ui(int cy, int cx) {
-  uint32_t vy, vx;
+  uint8_t vy, vx;
 
   vy = cy - ((W1_NLINES - 2) / 2);
 

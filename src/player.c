@@ -7,6 +7,21 @@ player * p;
 uint8_t border_y = (HEIGHT - (HEIGHT - W1_NLINES + 2)) / 2;
 uint8_t border_x = (WIDTH - (WIDTH - W1_NCOLS + 2)) / 2;
 
+void move_player(uint8_t y, uint8_t x, uint8_t cy, uint8_t cx) {
+  uint8_t yy, xx;
+
+  yy = y + cy;
+  xx = x + cx;
+
+  if (m->gr[yy * WIDTH + xx]->gv == 2) {
+    m->gr[yy * WIDTH + xx]->gv = m->gr[y * WIDTH + x]->gv;
+    m->gr[y * WIDTH + x]->gv = 2;
+
+    p->y += cy;
+    p->x += cx;
+  }
+}
+
 static void put_player(void) {
   if (p->y < border_y) p->vy = border_y;
   else if (p->y >= HEIGHT - border_y) p->vy = HEIGHT - border_y;
@@ -22,7 +37,7 @@ void free_player(void) {
 }
 
 void init_player(void) {
-  uint32_t id;
+  uint16_t id;
 
   p = malloc(sizeof(player));
   id = random_pick_path();

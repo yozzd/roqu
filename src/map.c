@@ -11,20 +11,20 @@ wchar_t print_map(uint8_t y, uint8_t x) {
   else return charset[m->gr[y * WIDTH + x]->gv];
 }
 
-uint32_t random_pick_path(void) {
-  uint32_t id;
+uint16_t random_pick_path(void) {
+  uint16_t id;
 
   id = get_uniform_bound(0, m->spt - 1);
   return m->pt[id];
 }
 
 void new_map(void) {
-  uint32_t n = 1;
+  uint16_t n = 1;
 
   m = malloc(sizeof(map));
 
   m->gr = malloc(sizeof(grid) * HEIGHT * WIDTH * 2);
-  for (uint32_t i = 0; i < HEIGHT * WIDTH; i++) {
+  for (uint16_t i = 0; i < HEIGHT * WIDTH; i++) {
     if (i == n * WIDTH) n++;
     m->gr[i] = malloc(sizeof(grid));
     m->gr[i]->y = n - 1;
@@ -39,7 +39,7 @@ void new_map(void) {
 }
 
 void free_map(void) {
-  for (uint32_t i = 0; i < HEIGHT * WIDTH; i++) {
+  for (uint16_t i = 0; i < HEIGHT * WIDTH; i++) {
     free(m->gr[i]);
   }
 

@@ -79,8 +79,8 @@ double get_uniform(void) {
   return ldexp(extractU32(), -32);
 }
 
-int get_uniform_bound(int lower, int upper) {
-  int min, max;
+uint16_t get_uniform_bound(uint16_t lower, uint16_t upper) {
+  uint16_t min, max;
 
   max = MAX(lower, upper);
   min = MIN(lower, upper);

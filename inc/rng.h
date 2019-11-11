@@ -3,6 +3,6 @@
 
 void initialize(const uint32_t seed);
 double get_uniform();
-int get_uniform_bound(int lower, int upper);
+uint16_t get_uniform_bound(uint16_t lower, uint16_t upper);
 
 #endif
