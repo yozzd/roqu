@@ -5,15 +5,17 @@
 static int corridor_len[2] = {8, 10};
 static int corridor_dir[4][3] = {{0, 1, 3}, {0, 1 ,2}, {1, 2, 3}, {0, 2, 3}};
 
-static void fill_corridor(uint8_t sy, uint8_t ey, uint8_t sx, uint8_t ex, uint8_t dr) {
+static void set_door_candidate(uint8_t sy, uint8_t ey, uint8_t sx, uint8_t ex, uint8_t dr) {
+  if (dr == 0) set_grid_door(sy, sx, 4, 0);
+  else if (dr == 1) set_grid_door(ey, ex, 4, 1);
+  else if (dr == 2) set_grid_door(ey, ex, 4, 2);
+  else set_grid_door(sy, sx, 4, 3);
+}
+
+static void fill_corridor(uint8_t sy, uint8_t ey, uint8_t sx, uint8_t ex) {
   for (uint8_t y = sy; y <= ey; y++) {
     for (uint8_t x = sx; x <= ex; x++) {
       m->gr[y * WIDTH + x]->gv = 2;
-
-      if (dr == 0) set_grid_door(sy, sx, 4, 0);
-      else if (dr == 1) set_grid_door(ey, ex, 4, 1);
-      else if (dr == 2) set_grid_door(ey, ex, 4, 2);
-      else set_grid_door(sy, sx, 4, 3);
 
       if (m->spt >= 2) m->pt = realloc(m->pt, sizeof(m->pt) * m->spt + 1);
       m->pt[m->spt] = y * WIDTH + x;
@@ -78,8 +80,9 @@ void create_corridor(void) {
   }
 
   if (is_valid_corridor(sy, ey, sx, ex, len)) {
-    fill_corridor(sy, ey, sx, ex, dr);
     m->gr[id]->drv = 0;
     m->gr[id]->drd = 4;
+    fill_corridor(sy, ey, sx, ex);
+    set_door_candidate(sy, ey, sx, ex, dr);
   }
 }

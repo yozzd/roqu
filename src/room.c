@@ -81,9 +81,9 @@ void create_room(void) {
   }
 
   if (is_valid_room(y1, x1, y2, x2)) {
-    fill_room(y1, x1, y2, x2);
     m->gr[id]->drv = 0;
     m->gr[id]->drd = 4;
+    fill_room(y1, x1, y2, x2);
     set_door_candidate(y1, x1, y2, x2);
   }
 }
