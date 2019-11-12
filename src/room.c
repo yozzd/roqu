@@ -2,8 +2,8 @@
 #include "rng.h"
 #include "map.h"
 
-static uint8_t room_h[2] = {4, 5};
-static uint8_t room_w[2] = {4, 9};
+static uint8_t room_h[2] = {4, 6};
+static uint8_t room_w[2] = {6, 10};
 
 static void set_door_candidate(uint8_t y1, uint8_t x1, uint8_t y2, uint8_t x2) {
   set_grid_door(y1, get_uniform_bound(x1 + 1, x2 - 1), 3, 0);
@@ -57,26 +57,26 @@ void create_room(void) {
   if (m->gr[id]->drd == 0) {
     len = m->gr[id]->x - floor(get_uniform() * w);
     y1 = m->gr[id]->y - h;
-    x1 = len - 1;
+    x1 = len;
     y2 = m->gr[id]->y - 1;
-    x2 = len + w;
+    x2 = len + w - 1;
   } else if (m->gr[id]->drd == 1) {
     len = m->gr[id]->y - floor(get_uniform() * h);
-    y1 = len - 1;
+    y1 = len;
     x1 = m->gr[id]->x + 1;
-    y2 = len + h;
+    y2 = len + h - 1;
     x2 = m->gr[id]->x + w;
   } else if (m->gr[id]->drd == 2) {
     len = m->gr[id]->x - floor(get_uniform() * w);
     y1 = m->gr[id]->y + 1;
-    x1 = len - 1;
+    x1 = len;
     y2 = m->gr[id]->y + h;
-    x2 = len + w;
+    x2 = len + w - 1;
   } else {
     len = m->gr[id]->y - floor(get_uniform() * h);
-    y1 = len - 1;
+    y1 = len;
     x1 = m->gr[id]->x - w;
-    y2 = len + h;
+    y2 = len + h - 1;
     x2 = m->gr[id]->x - 1;
   }
 
