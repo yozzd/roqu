@@ -72,7 +72,7 @@ void new_map(void) {
   m->sdr = 0;
 }
 
-static void make_walls(void) {
+static void create_walls(void) {
   for (uint8_t y = 0; y < HEIGHT; y++) {
     for (uint8_t x = 0; x < WIDTH; x++) {
       for (uint8_t i = 0; i < 8; i++) {
@@ -112,5 +112,5 @@ void init_map(void) {
     else create_room();
   } while(i < attempt);
 
-  make_walls();
+  create_walls();
 }
