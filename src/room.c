@@ -43,12 +43,13 @@ static bool is_valid_room(int16_t y1, int16_t x1, int16_t y2, int16_t x2) {
 }
 
 void create_room(void) {
-  uint16_t id;
+  uint16_t n, id;
   uint8_t len, h, w;
   int16_t y1, x1, y2, x2;
 
   do {
-    id = random_pick_grid(m->dr, m->sdr);
+    n = random_pick_grid(m->sdr);
+    id = m->dr[n];
   } while(m->gr[id]->drv == 3);
 
   h = get_uniform_bound(room_h[0], room_h[1]);
@@ -81,10 +82,9 @@ void create_room(void) {
   }
 
   if (is_valid_room(y1, x1, y2, x2)) {
-    m->gr[id]->drv = 0;
-    m->gr[id]->drd = 4;
     fill_room(y1, x1, y2, x2);
     set_door_candidate(y1, x1, y2, x2);
+    delete_door_arr(n);
   }
 }
 

@@ -10,6 +10,15 @@ map *m;
 uint8_t dir[8][2] = {{-1, 0}, {0, 1}, {1, 0}, {0, -1},
                     {-1, 1}, {1, 1}, {1, -1}, {-1, -1}};
 
+void delete_door_arr(uint16_t id) {
+  m->gr[m->dr[id]]->drv = 0;
+  m->gr[m->dr[id]]->drd = 4;
+  for(uint16_t i = 0; i < m->sdr; i++){
+    m->dr[id + i] = m->dr[id + i + 1];
+  }
+  m->sdr = m->sdr - 1;
+}
+
 void set_grid_door(uint8_t y, uint8_t x, uint8_t drv, uint8_t drd) {
   m->gr[y * WIDTH + x]->drv = drv;
   m->gr[y * WIDTH + x]->drd = drd;
@@ -34,11 +43,8 @@ wchar_t print_map(uint8_t y, uint8_t x) {
   else return charset[m->gr[y * WIDTH + x]->gv];
 }
 
-uint16_t random_pick_grid(uint16_t *arr, uint16_t size) {
-  uint16_t id;
-
-  id = get_uniform_bound(0, size - 1);
-  return arr[id];
+uint16_t random_pick_grid(uint16_t size) {
+  return get_uniform_bound(0, size - 1);
 }
 
 void new_map(void) {
@@ -98,7 +104,7 @@ void free_map(void) {
 }
 
 void init_map(void) {
-  uint8_t i = 0, attempt = 100, idx;
+  uint8_t i = 0, attempt = 50, idx;
 
   new_map();
   first_room();
@@ -110,6 +116,7 @@ void init_map(void) {
     idx = get_uniform_bound(0, 1);
     if (idx == 0) create_corridor();
     else create_room();
+    create_corridor();
   } while(i < attempt);
 
   create_walls();

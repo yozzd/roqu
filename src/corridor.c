@@ -40,10 +40,11 @@ static bool is_valid_corridor(uint8_t sy, uint8_t ey, uint8_t sx, uint8_t ex, ui
 }
 
 void create_corridor(void) {
-  uint16_t id;
+  uint16_t n, id;
   uint8_t len, idc, cd, dr, sy, ey, sx, ex;
 
-  id = random_pick_grid(m->dr, m->sdr);
+  n = random_pick_grid(m->sdr);
+  id = m->dr[n];
   len = get_uniform_bound(corridor_len[0], corridor_len[1]);
 
   if (m->gr[id]->drv == 4) {
@@ -80,9 +81,8 @@ void create_corridor(void) {
   }
 
   if (is_valid_corridor(sy, ey, sx, ex, len)) {
-    m->gr[id]->drv = 0;
-    m->gr[id]->drd = 4;
     fill_corridor(sy, ey, sx, ex);
     set_door_candidate(sy, ey, sx, ex, dr);
+    delete_door_arr(n);
   }
 }

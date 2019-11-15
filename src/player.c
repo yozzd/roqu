@@ -63,12 +63,13 @@ void free_player(void) {
 }
 
 void init_player(void) {
-  uint16_t id;
+  uint16_t n, id;
 
   p = malloc(sizeof(player));
 
   do {
-    id = random_pick_grid(m->pt, m->spt);
+    n = random_pick_grid(m->spt);
+    id = m->pt[n];
   } while (m->gr[id]->gv != 2);
 
   p->name = "Orcbolg";
