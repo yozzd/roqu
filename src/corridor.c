@@ -2,7 +2,7 @@
 #include "rng.h"
 #include "map.h"
 
-static int corridor_len[2] = {8, 10};
+static int corridor_len[2] = {2, 8};
 static int corridor_dir[4][3] = {{0, 1, 3}, {0, 1 ,2}, {1, 2, 3}, {0, 2, 3}};
 
 static void set_door_candidate(uint8_t sy, uint8_t ey, uint8_t sx, uint8_t ex, uint8_t dr) {

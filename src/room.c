@@ -3,13 +3,31 @@
 #include "map.h"
 
 static uint8_t room_h[2] = {4, 6};
-static uint8_t room_w[2] = {6, 10};
+static uint8_t room_w[2] = {6, 16};
 
-static void set_door_candidate(uint8_t y1, uint8_t x1, uint8_t y2, uint8_t x2) {
-  set_grid_door(y1, get_uniform_bound(x1 + 1, x2 - 1), 3, 0);
-  set_grid_door(get_uniform_bound(y1 + 1, y2 - 1), x2, 3, 1);
-  set_grid_door(y2, get_uniform_bound(x1 + 1, x2 - 1), 3, 2);
-  set_grid_door(get_uniform_bound(y1 + 1, y2 - 1), x1, 3, 3);
+static void set_door_candidate(uint8_t y1, uint8_t x1, uint8_t y2, uint8_t x2, uint8_t drd) {
+  if (drd == 0) {
+    set_grid_door(y1, get_uniform_bound(x1 + 1, x2 - 1), 3, 0);
+    set_grid_door(get_uniform_bound(y1 + 1, y2 - 1), x2, 3, 1);
+    set_grid_door(get_uniform_bound(y1 + 1, y2 - 1), x1, 3, 3);
+  } else if (drd == 1) {
+    set_grid_door(y1, get_uniform_bound(x1 + 1, x2 - 1), 3, 0);
+    set_grid_door(get_uniform_bound(y1 + 1, y2 - 1), x2, 3, 1);
+    set_grid_door(y2, get_uniform_bound(x1 + 1, x2 - 1), 3, 2);
+  } else if (drd == 2) {
+    set_grid_door(get_uniform_bound(y1 + 1, y2 - 1), x2, 3, 1);
+    set_grid_door(y2, get_uniform_bound(x1 + 1, x2 - 1), 3, 2);
+    set_grid_door(get_uniform_bound(y1 + 1, y2 - 1), x1, 3, 3);
+  } else if (drd == 3) {
+    set_grid_door(y1, get_uniform_bound(x1 + 1, x2 - 1), 3, 0);
+    set_grid_door(y2, get_uniform_bound(x1 + 1, x2 - 1), 3, 2);
+    set_grid_door(get_uniform_bound(y1 + 1, y2 - 1), x1, 3, 3);
+  } else {
+    set_grid_door(y1, get_uniform_bound(x1 + 1, x2 - 1), 3, 0);
+    set_grid_door(get_uniform_bound(y1 + 1, y2 - 1), x2, 3, 1);
+    set_grid_door(y2, get_uniform_bound(x1 + 1, x2 - 1), 3, 2);
+    set_grid_door(get_uniform_bound(y1 + 1, y2 - 1), x1, 3, 3);
+  }
 }
 
 static void fill_room(uint8_t y1, uint8_t x1, uint8_t y2, uint8_t x2) {
@@ -81,7 +99,7 @@ void create_room(void) {
 
   if (is_valid_room(y1, x1, y2, x2)) {
     fill_room(y1, x1, y2, x2);
-    set_door_candidate(y1, x1, y2, x2);
+    set_door_candidate(y1, x1, y2, x2, m->gr[m->dr[n]]->drd);
     delete_door_arr(n);
   }
 }
@@ -101,5 +119,5 @@ void first_room(void) {
   x2 = x1 + w - 1;
 
   fill_room(y1, x1, y2, x2);
-  set_door_candidate(y1, x1, y2, x2);
+  set_door_candidate(y1, x1, y2, x2, 4);
 }

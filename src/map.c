@@ -104,7 +104,7 @@ void free_map(void) {
 }
 
 void init_map(void) {
-  uint8_t i = 0, attempt = 50, idx;
+  uint8_t i = 0, attempt = 100, idx;
 
   new_map();
   first_room();
