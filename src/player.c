@@ -63,25 +63,24 @@ void free_player(void) {
 }
 
 void init_player(void) {
-  uint16_t n, id;
+  uint16_t n;
 
   p = malloc(sizeof(player));
 
   do {
     n = random_pick_grid(m->spt);
-    id = m->pt[n];
-  } while (m->gr[id]->gv != 2);
+  } while (m->gr[m->pt[n]]->gv != 2);
 
   p->name = "Orcbolg";
-  p->y = m->gr[id]->y;
-  p->x = m->gr[id]->x;
+  p->y = m->gr[m->pt[n]]->y;
+  p->x = m->gr[m->pt[n]]->x;
   p->hp = 100;
   p->vision = 4;
   p->quit = false;
 
-  m->gr[id]->gv = 5;
+  m->gr[m->pt[n]]->gv = 5;
 
   put_player();
-  player_color(id);
+  player_color(m->pt[n]);
   fov(p->x, p->y, p->vision);
 }

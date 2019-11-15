@@ -43,42 +43,40 @@ static bool is_valid_room(int16_t y1, int16_t x1, int16_t y2, int16_t x2) {
 }
 
 void create_room(void) {
-  uint16_t n, id;
+  int16_t n, y1, x1, y2, x2;
   uint8_t len, h, w;
-  int16_t y1, x1, y2, x2;
 
   do {
     n = random_pick_grid(m->sdr);
-    id = m->dr[n];
-  } while(m->gr[id]->drv == 3);
+  } while(m->gr[m->dr[n]]->drv == 3);
 
   h = get_uniform_bound(room_h[0], room_h[1]);
   w = get_uniform_bound(room_w[0], room_w[1]);
 
-  if (m->gr[id]->drd == 0) {
-    len = m->gr[id]->x - floor(get_uniform() * w);
-    y1 = m->gr[id]->y - h;
+  if (m->gr[m->dr[n]]->drd == 0) {
+    len = m->gr[m->dr[n]]->x - floor(get_uniform() * w);
+    y1 = m->gr[m->dr[n]]->y - h;
     x1 = len;
-    y2 = m->gr[id]->y - 1;
+    y2 = m->gr[m->dr[n]]->y - 1;
     x2 = len + w - 1;
-  } else if (m->gr[id]->drd == 1) {
-    len = m->gr[id]->y - floor(get_uniform() * h);
+  } else if (m->gr[m->dr[n]]->drd == 1) {
+    len = m->gr[m->dr[n]]->y - floor(get_uniform() * h);
     y1 = len;
-    x1 = m->gr[id]->x + 1;
+    x1 = m->gr[m->dr[n]]->x + 1;
     y2 = len + h - 1;
-    x2 = m->gr[id]->x + w;
-  } else if (m->gr[id]->drd == 2) {
-    len = m->gr[id]->x - floor(get_uniform() * w);
-    y1 = m->gr[id]->y + 1;
+    x2 = m->gr[m->dr[n]]->x + w;
+  } else if (m->gr[m->dr[n]]->drd == 2) {
+    len = m->gr[m->dr[n]]->x - floor(get_uniform() * w);
+    y1 = m->gr[m->dr[n]]->y + 1;
     x1 = len;
-    y2 = m->gr[id]->y + h;
+    y2 = m->gr[m->dr[n]]->y + h;
     x2 = len + w - 1;
   } else {
-    len = m->gr[id]->y - floor(get_uniform() * h);
+    len = m->gr[m->dr[n]]->y - floor(get_uniform() * h);
     y1 = len;
-    x1 = m->gr[id]->x - w;
+    x1 = m->gr[m->dr[n]]->x - w;
     y2 = len + h - 1;
-    x2 = m->gr[id]->x - 1;
+    x2 = m->gr[m->dr[n]]->x - 1;
   }
 
   if (is_valid_room(y1, x1, y2, x2)) {
