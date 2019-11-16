@@ -16,6 +16,7 @@ static void fill_corridor(uint8_t sy, uint8_t ey, uint8_t sx, uint8_t ex) {
   for (uint8_t y = sy; y <= ey; y++) {
     for (uint8_t x = sx; x <= ex; x++) {
       m->gr[y * WIDTH + x]->gv = 2;
+      m->gr[y * WIDTH + x]->type = 2;
 
       if (m->spt >= 2) m->pt = realloc(m->pt, sizeof(m->pt) * m->spt + 1);
       m->pt[m->spt] = y * WIDTH + x;
