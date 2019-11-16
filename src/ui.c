@@ -8,13 +8,17 @@ uint8_t offset_y, offset_x;
 
 
 void keymap(void) {
-  int c = wgetch(win[0]);
+  uint8_t v1, v2;
 
-  if (c == 'q') p->quit = true;
-  else if(c =='j') move_player(p->y, p->x, 1, 0);
-  else if(c =='k') move_player(p->y, p->x, -1, 0);
-  else if(c =='h') move_player(p->y, p->x, 0, -1);
-  else if(c =='l') move_player(p->y, p->x, 0, 1);
+  switch(wgetch(win[0])) {
+    case 'j': v1 = 1;   v2 = 0;   break;
+    case 'k': v1 = -1;  v2 = 0;   break;
+    case 'h': v1 = 0;   v2 = -1;  break;
+    case 'l': v1 = 0;   v2 = 1;   break;
+    case 'q': p->quit = true;     break;
+  }
+
+  move_player(p->y, p->x, v1, v2);
 }
 
 void shutdown_ui(void) {
