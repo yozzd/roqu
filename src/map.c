@@ -1,4 +1,3 @@
-#include "base.h"
 #include "rng.h"
 #include "map.h"
 #include "room.h"
@@ -7,19 +6,19 @@
 #include "player.h"
 
 map *m;
-uint8_t dir[8][2] = {{-1, 0}, {0, 1}, {1, 0}, {0, -1},
+u8 dir[8][2] = {{-1, 0}, {0, 1}, {1, 0}, {0, -1},
                     {-1, 1}, {1, 1}, {1, -1}, {-1, -1}};
 
-void delete_door_arr(uint16_t id) {
+void delete_door_arr(u16 id) {
   m->gr[m->dr[id]]->drv = 0;
   m->gr[m->dr[id]]->drd = 4;
-  for(uint16_t i = 0; i < m->sdr; i++){
+  for(u16 i = 0; i < m->sdr; i++){
     m->dr[id + i] = m->dr[id + i + 1];
   }
   m->sdr = m->sdr - 1;
 }
 
-void set_grid_door(uint8_t y, uint8_t x, uint8_t drv, uint8_t drd) {
+void set_grid_door(u8 y, u8 x, u8 drv, u8 drd) {
   m->gr[y * WIDTH + x]->drv = drv;
   m->gr[y * WIDTH + x]->drd = drd;
 
@@ -29,7 +28,7 @@ void set_grid_door(uint8_t y, uint8_t x, uint8_t drv, uint8_t drd) {
 }
 
 void reset_grid_visibility(void) {
-  for (uint16_t i = 0; i < HEIGHT * WIDTH; i++) {
+  for (u16 i = 0; i < HEIGHT * WIDTH; i++) {
     m->gr[i]->vb = 0;
 
     if (m->gr[i]->vb && m->gr[i]->vt && m->gr[i]->gv == 5) player_color(i);
@@ -38,22 +37,22 @@ void reset_grid_visibility(void) {
   }
 }
 
-wchar_t print_map(uint8_t y, uint8_t x) {
+wchar_t print_map(u8 y, u8 x) {
   if (y < 0 || x < 0 || y >= HEIGHT || x >= WIDTH) return charset[0];
   else return charset[m->gr[y * WIDTH + x]->gv];
 }
 
-uint16_t random_pick_grid(uint16_t size) {
+u16 random_pick_grid(u16 size) {
   return get_uniform_bound(0, size - 1);
 }
 
 void new_map(void) {
-  uint16_t n = 1;
+  u16 n = 1;
 
   m = malloc(sizeof(map));
 
   m->gr = malloc(sizeof(grid) * HEIGHT * WIDTH * 2);
-  for (uint16_t i = 0; i < HEIGHT * WIDTH; i++) {
+  for (u16 i = 0; i < HEIGHT * WIDTH; i++) {
     if (i == n * WIDTH) n++;
     m->gr[i] = malloc(sizeof(grid));
     m->gr[i]->y = n - 1;
@@ -79,10 +78,10 @@ void new_map(void) {
 }
 
 static void create_walls(void) {
-  for (uint8_t y = 0; y < HEIGHT; y++) {
-    for (uint8_t x = 0; x < WIDTH; x++) {
-      for (uint8_t i = 0; i < 8; i++) {
-        uint8_t yy = y + dir[i][0], xx = x + dir[i][1];
+  for (u8 y = 0; y < HEIGHT; y++) {
+    for (u8 x = 0; x < WIDTH; x++) {
+      for (u8 i = 0; i < 8; i++) {
+        u8 yy = y + dir[i][0], xx = x + dir[i][1];
 
         if (m->gr[y * WIDTH + x]->gv == 2 && m->gr[yy * WIDTH + xx]->gv == 0) {
           m->gr[yy * WIDTH + xx]->gv = 1;
@@ -93,7 +92,7 @@ static void create_walls(void) {
 }
 
 void free_map(void) {
-  for (uint16_t i = 0; i < HEIGHT * WIDTH; i++) {
+  for (u16 i = 0; i < HEIGHT * WIDTH; i++) {
     free(m->gr[i]);
   }
 
@@ -104,7 +103,7 @@ void free_map(void) {
 }
 
 void init_map(void) {
-  uint8_t i = 0, attempt = 100, idx;
+  u8 i = 0, attempt = 100, idx;
 
   new_map();
   first_room();

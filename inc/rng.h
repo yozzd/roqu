@@ -1,8 +1,10 @@
 #ifndef RNG_H
 #define RNG_H
 
-void initialize(const uint32_t seed);
+#include "base.h"
+
+void initialize(const u32 seed);
 double get_uniform();
-uint16_t get_uniform_bound(uint16_t lower, uint16_t upper);
+u16 get_uniform_bound(u16 lower, u16 upper);
 
 #endif

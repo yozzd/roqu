@@ -1,20 +1,19 @@
-#include "base.h"
 #include "rng.h"
 #include "map.h"
 
 static int corridor_len[2] = {2, 8};
 static int corridor_dir[4][3] = {{0, 1, 3}, {0, 1 ,2}, {1, 2, 3}, {0, 2, 3}};
 
-static void set_door_candidate(uint8_t sy, uint8_t ey, uint8_t sx, uint8_t ex, uint8_t dr) {
+static void set_door_candidate(u8 sy, u8 ey, u8 sx, u8 ex, u8 dr) {
   if (dr == 0) set_grid_door(sy, sx, 4, 0);
   else if (dr == 1) set_grid_door(ey, ex, 4, 1);
   else if (dr == 2) set_grid_door(ey, ex, 4, 2);
   else set_grid_door(sy, sx, 4, 3);
 }
 
-static void fill_corridor(uint8_t sy, uint8_t ey, uint8_t sx, uint8_t ex) {
-  for (uint8_t y = sy; y <= ey; y++) {
-    for (uint8_t x = sx; x <= ex; x++) {
+static void fill_corridor(u8 sy, u8 ey, u8 sx, u8 ex) {
+  for (u8 y = sy; y <= ey; y++) {
+    for (u8 x = sx; x <= ex; x++) {
       m->gr[y * WIDTH + x]->gv = 2;
       m->gr[y * WIDTH + x]->type = 2;
 
@@ -25,11 +24,11 @@ static void fill_corridor(uint8_t sy, uint8_t ey, uint8_t sx, uint8_t ex) {
   }
 }
 
-static bool is_valid_corridor(uint8_t sy, uint8_t ey, uint8_t sx, uint8_t ex, uint8_t len) {
-  uint8_t c = 0;
+static bool is_valid_corridor(u8 sy, u8 ey, u8 sx, u8 ex, u8 len) {
+  u8 c = 0;
 
-  for (uint8_t y = sy; y <= ey; y++) {
-    for (uint8_t x = sx; x <= ex; x++) {
+  for (u8 y = sy; y <= ey; y++) {
+    for (u8 x = sx; x <= ex; x++) {
       if (y * WIDTH + x > 0 && y * WIDTH + x < HEIGHT * WIDTH - 1) {
         if (m->gr[y * WIDTH + x]->gv == 0) c++;
       }
@@ -41,8 +40,8 @@ static bool is_valid_corridor(uint8_t sy, uint8_t ey, uint8_t sx, uint8_t ex, ui
 }
 
 void create_corridor(void) {
-  uint16_t n;
-  uint8_t len, idc, cd, dr, sy, ey, sx, ex;
+  u16 n;
+  u8 len, idc, cd, dr, sy, ey, sx, ex;
 
   n = random_pick_grid(m->sdr);
   len = get_uniform_bound(corridor_len[0], corridor_len[1]);

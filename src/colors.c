@@ -1,4 +1,4 @@
-#include "base.h"
+#include "colors.h"
 
 void color_init(void) {
   start_color();

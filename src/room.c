@@ -1,11 +1,10 @@
-#include "base.h"
 #include "rng.h"
 #include "map.h"
 
-static uint8_t room_h[2] = {4, 6};
-static uint8_t room_w[2] = {6, 16};
+static u8 room_h[2] = {4, 6};
+static u8 room_w[2] = {6, 16};
 
-static void set_door_candidate(uint8_t y1, uint8_t x1, uint8_t y2, uint8_t x2, uint8_t drd) {
+static void set_door_candidate(u8 y1, u8 x1, u8 y2, u8 x2, u8 drd) {
   if (drd == 0) {
     set_grid_door(y1, get_uniform_bound(x1 + 1, x2 - 1), 3, 0);
     set_grid_door(get_uniform_bound(y1 + 1, y2 - 1), x2, 3, 1);
@@ -30,9 +29,9 @@ static void set_door_candidate(uint8_t y1, uint8_t x1, uint8_t y2, uint8_t x2, u
   }
 }
 
-static void fill_room(uint8_t y1, uint8_t x1, uint8_t y2, uint8_t x2) {
-  for (uint8_t y = y1; y <= y2; y++) {
-    for (uint8_t x = x1; x <= x2; x++) {
+static void fill_room(u8 y1, u8 x1, u8 y2, u8 x2) {
+  for (u8 y = y1; y <= y2; y++) {
+    for (u8 x = x1; x <= x2; x++) {
       m->gr[y * WIDTH + x]->gv = 2;
       m->gr[y * WIDTH + x]->type = 1;
 
@@ -43,12 +42,12 @@ static void fill_room(uint8_t y1, uint8_t x1, uint8_t y2, uint8_t x2) {
   }
 }
 
-static bool is_valid_room(int16_t y1, int16_t x1, int16_t y2, int16_t x2) {
-  uint8_t t = 0;
-  int8_t c = 0;
+static bool is_valid_room(i16 y1, i16 x1, i16 y2, i16 x2) {
+  u8 t = 0;
+  i8 c = 0;
 
-  for (int16_t y = y1; y <= y2; y++) {
-    for (int16_t x = x1; x <= x2; x++) {
+  for (i16 y = y1; y <= y2; y++) {
+    for (i16 x = x1; x <= x2; x++) {
       t++;
       if (y * WIDTH + x > 0 && y * WIDTH + x < HEIGHT * WIDTH - 1) {
         if (m->gr[y * WIDTH + x]->gv == 0) c++;
@@ -61,8 +60,8 @@ static bool is_valid_room(int16_t y1, int16_t x1, int16_t y2, int16_t x2) {
 }
 
 void create_room(void) {
-  int16_t n, y1, x1, y2, x2;
-  uint8_t len, h, w;
+  i16 n, y1, x1, y2, x2;
+  u8 len, h, w;
 
   do {
     n = random_pick_grid(m->sdr);
@@ -105,7 +104,7 @@ void create_room(void) {
 }
 
 void first_room(void) {
-  uint8_t cy, cx, h, w, y1, x1, y2, x2;
+  u8 cy, cx, h, w, y1, x1, y2, x2;
 
   cy = floor(HEIGHT / 2);
   cx = floor(WIDTH / 2);

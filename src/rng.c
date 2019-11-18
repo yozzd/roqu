@@ -1,4 +1,3 @@
-#include "base.h"
 #include "rng.h"
 
 // Define MT19937 constants (32-bit RNG)
@@ -24,11 +23,11 @@ enum {
   MASK_UPPER = (1ull << R)
 };
 
-static uint32_t mt[N];
-static uint16_t idx;
+static u32 mt[N];
+static u16 idx;
 
-void initialize(const uint32_t seed) {
-  uint32_t i;
+void initialize(const u32 seed) {
+  u32 i;
 
   mt[0] = seed;
 
@@ -40,7 +39,7 @@ void initialize(const uint32_t seed) {
 }
 
 static void twist() {
-  uint32_t i, x, xA;
+  u32 i, x, xA;
 
   for (i = 0; i < N; i++) {
     x = (mt[i] & MASK_UPPER) + (mt[(i + 1) % N] & MASK_LOWER);
@@ -55,8 +54,8 @@ static void twist() {
   idx = 0;
 }
 
-uint32_t extractU32() {
-  uint32_t y;
+u32 extractU32() {
+  u32 y;
   int i = idx;
 
   if (idx >= N) {
@@ -79,8 +78,8 @@ double get_uniform(void) {
   return ldexp(extractU32(), -32);
 }
 
-uint16_t get_uniform_bound(uint16_t lower, uint16_t upper) {
-  uint16_t min, max;
+u16 get_uniform_bound(u16 lower, u16 upper) {
+  u16 min, max;
 
   max = MAX(lower, upper);
   min = MIN(lower, upper);
