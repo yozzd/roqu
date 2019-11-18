@@ -106,7 +106,7 @@ void free_map(void) {
 }
 
 void init_map(void) {
-  u8 i = 0, attempt = 100, idx;
+  u8 i = 0, attempt = 50, idx;
 
   new_map();
   first_room();
@@ -118,7 +118,6 @@ void init_map(void) {
     idx = get_uniform_bound(0, 1);
     if (idx == 0) create_corridor();
     else create_room();
-    create_corridor();
   } while(i < attempt);
 
   create_walls();

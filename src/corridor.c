@@ -1,8 +1,8 @@
 #include "rng.h"
 #include "map.h"
 
-static int corridor_len[2] = {2, 8};
-static int corridor_dir[4][3] = {{0, 1, 3}, {0, 1 ,2}, {1, 2, 3}, {0, 2, 3}};
+static const u8 corridor_len[2] = {2, 8};
+static const u8 corridor_dir[4][3] = {{0, 1, 3}, {0, 1, 2}, {1, 2, 3}, {0, 2, 3}};
 
 static void set_door_candidate(u8 sy, u8 ey, u8 sx, u8 ex, u8 dr) {
   if (dr == 0) set_grid_door(sy, sx, 4, 0);
@@ -53,9 +53,9 @@ void create_corridor(void) {
     else if (m->gr[m->dr[n]]->drd == 1) cd = corridor_dir[1][idc];
     else if (m->gr[m->dr[n]]->drd == 2) cd = corridor_dir[2][idc];
     else cd = corridor_dir[3][idc];
-  }
 
-  dr = m->gr[m->dr[n]]->drv == 4 ? cd : m->gr[m->dr[n]]->drd;
+    dr = cd;
+  } else dr = m->gr[m->dr[n]]->drd;
 
   if (dr == 0) {
     sy = m->gr[m->dr[n]]->y + (len * dir[0][0]);
@@ -83,5 +83,5 @@ void create_corridor(void) {
     fill_corridor(sy, ey, sx, ex);
     set_door_candidate(sy, ey, sx, ex, dr);
     delete_door_arr(n);
-  }
+  } else create_corridor();
 }
