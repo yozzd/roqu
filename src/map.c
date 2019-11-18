@@ -6,8 +6,7 @@
 #include "player.h"
 
 map *m;
-u8 dir[8][2] = {{-1, 0}, {0, 1}, {1, 0}, {0, -1},
-                    {-1, 1}, {1, 1}, {1, -1}, {-1, -1}};
+u8 dir[8][2] = {{-1, 0}, {0, 1}, {1, 0}, {0, -1}, {-1, 1}, {1, 1}, {1, -1}, {-1, -1}};
 
 void delete_door_arr(u16 id) {
   m->gr[m->dr[id]]->drv = 0;
@@ -47,14 +46,18 @@ u16 random_pick_grid(u16 size) {
 }
 
 void new_map(void) {
-  u16 n = 1;
+  u16 n = 1, cap = 10;
 
-  m = malloc(sizeof(map));
+  m = calloc(1, sizeof(map));
 
-  m->gr = malloc(sizeof(grid) * HEIGHT * WIDTH * 2);
+  m->gr = calloc(cap, sizeof(grid));
   for (u16 i = 0; i < HEIGHT * WIDTH; i++) {
+    if (i == cap) {
+      cap *= 2;
+      m->gr = realloc(m->gr, sizeof(m->gr) * cap);
+    }
     if (i == n * WIDTH) n++;
-    m->gr[i] = malloc(sizeof(grid));
+    m->gr[i] = calloc(1, sizeof(grid));
     m->gr[i]->y = n - 1;
     m->gr[i]->x = i - (n - 1) * WIDTH;
     m->gr[i]->gv = 0;
@@ -70,10 +73,10 @@ void new_map(void) {
     else m->gr[i]->gv = 0;
   }
 
-  m->pt = malloc(sizeof(int) * 2);
+  m->pt = calloc(2, sizeof(int));
   m->spt = 0;
 
-  m->dr = malloc(sizeof(int) * 2);
+  m->dr = calloc(2, sizeof(int));
   m->sdr = 0;
 }
 
