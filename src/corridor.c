@@ -14,12 +14,7 @@ static void set_door_candidate(u8 sy, u8 ey, u8 sx, u8 ex, u8 dr) {
 static void fill_corridor(u8 sy, u8 ey, u8 sx, u8 ex) {
   for (u8 y = sy; y <= ey; y++) {
     for (u8 x = sx; x <= ex; x++) {
-      m->gr[y * WIDTH + x]->gv = 2;
-      m->gr[y * WIDTH + x]->type = 2;
-
-      if (m->spt >= 2) m->pt = realloc(m->pt, sizeof(m->pt) * m->spt + 1);
-      m->pt[m->spt] = y * WIDTH + x;
-      m->spt++;
+      set_grid_path(y, x, 2, 2);
     }
   }
 }

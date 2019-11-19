@@ -7,6 +7,7 @@
 
 map *m;
 u8 dir[8][2] = {{-1, 0}, {0, 1}, {1, 0}, {0, -1}, {-1, 1}, {1, 1}, {1, -1}, {-1, -1}};
+static u16 grcap = 10, ptcap = 10, drcap = 10;
 
 void delete_door_arr(u16 id) {
   m->gr[m->dr[id]]->drv = 0;
@@ -17,11 +18,26 @@ void delete_door_arr(u16 id) {
   m->sdr = m->sdr - 1;
 }
 
+void set_grid_path(u8 y, u8 x, u8 gv, u8 type) {
+  m->gr[y * WIDTH + x]->gv = gv;
+  m->gr[y * WIDTH + x]->type = type;
+
+  if (m->spt == ptcap) {
+    ptcap *= 2;
+    m->pt = realloc(m->pt, sizeof(m->pt) * ptcap);
+  }
+  m->pt[m->spt] = y * WIDTH + x;
+  m->spt++;
+}
+
 void set_grid_door(u8 y, u8 x, u8 drv, u8 drd) {
   m->gr[y * WIDTH + x]->drv = drv;
   m->gr[y * WIDTH + x]->drd = drd;
 
-  if (m->sdr >= 2) m->dr = realloc(m->dr, sizeof(m->dr) * m->sdr + 1);
+  if (m->sdr == drcap) {
+    drcap *= 2;
+    m->dr = realloc(m->dr, sizeof(m->dr) * drcap);
+  }
   m->dr[m->sdr] = y * WIDTH + x;
   m->sdr++;
 }
@@ -46,15 +62,15 @@ u16 random_pick_grid(u16 size) {
 }
 
 void new_map(void) {
-  u16 n = 1, cap = 10;
+  u16 n = 1;
 
   m = calloc(1, sizeof(map));
 
-  m->gr = calloc(cap, sizeof(grid));
+  m->gr = calloc(grcap, sizeof(grid));
   for (u16 i = 0; i < HEIGHT * WIDTH; i++) {
-    if (i == cap) {
-      cap *= 2;
-      m->gr = realloc(m->gr, sizeof(m->gr) * cap);
+    if (i == grcap) {
+      grcap *= 2;
+      m->gr = realloc(m->gr, sizeof(m->gr) * grcap);
     }
     if (i == n * WIDTH) n++;
     m->gr[i] = calloc(1, sizeof(grid));
@@ -73,10 +89,10 @@ void new_map(void) {
     else m->gr[i]->gv = 0;
   }
 
-  m->pt = calloc(2, sizeof(int));
+  m->pt = calloc(ptcap, sizeof(int));
   m->spt = 0;
 
-  m->dr = calloc(2, sizeof(int));
+  m->dr = calloc(drcap, sizeof(int));
   m->sdr = 0;
 }
 

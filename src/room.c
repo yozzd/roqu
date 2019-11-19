@@ -33,12 +33,7 @@ static void set_door_candidate(u8 y1, u8 x1, u8 y2, u8 x2, u8 drd) {
 static void fill_room(u8 y1, u8 x1, u8 y2, u8 x2) {
   for (u8 y = y1; y <= y2; y++) {
     for (u8 x = x1; x <= x2; x++) {
-      m->gr[y * WIDTH + x]->gv = 2;
-      m->gr[y * WIDTH + x]->type = 1;
-
-      if (m->spt >= 2) m->pt = realloc(m->pt, sizeof(m->pt) * m->spt + 1);
-      m->pt[m->spt] = y * WIDTH + x;
-      m->spt++;
+      set_grid_path(y, x, 2, 1);
     }
   }
 }
