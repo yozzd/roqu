@@ -122,7 +122,7 @@ void free_map(void) {
 }
 
 void init_map(void) {
-  u8 i = 0, attempt = 50, idx;
+  u8 i = 0, attempt = 100, idx;
 
   new_map();
   first_room();
