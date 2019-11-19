@@ -78,5 +78,5 @@ void create_corridor(void) {
     fill_corridor(sy, ey, sx, ex);
     set_door_candidate(sy, ey, sx, ex, dr);
     delete_door_arr(n);
-  } else create_corridor();
+  }
 }

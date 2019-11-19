@@ -1,6 +1,5 @@
 #include "rng.h"
 #include "map.h"
-#include "corridor.h"
 
 static const u8 room_h[2] = {4, 6};
 static const u8 room_w[2] = {6, 16};
@@ -96,7 +95,7 @@ void create_room(void) {
     fill_room(y1, x1, y2, x2);
     set_door_candidate(y1, x1, y2, x2, m->gr[m->dr[n]]->drd);
     delete_door_arr(n);
-  } else create_corridor();
+  }
 }
 
 void first_room(void) {
