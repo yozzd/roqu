@@ -1,7 +1,7 @@
 #include "rng.h"
 #include "map.h"
 
-static const u8 corridor_len[2] = {2, 8};
+static const u8 corridor_len[2] = {3, 8};
 static const u8 corridor_dir[4][3] = {{0, 1, 3}, {0, 1, 2}, {1, 2, 3}, {0, 2, 3}};
 
 static void set_door_candidate(u8 sy, u8 ey, u8 sx, u8 ex, u8 dr) {
@@ -36,7 +36,7 @@ static bool is_valid_corridor(u8 sy, u8 ey, u8 sx, u8 ex, u8 len) {
 
 void create_corridor(void) {
   u16 n;
-  u8 len, idc, cd, dr, sy, ey, sx, ex;
+  u8 len, idc, dr, sy, ey, sx, ex;
 
   n = random_pick_grid(m->sdr);
   len = get_uniform_bound(corridor_len[0], corridor_len[1]);
@@ -44,12 +44,11 @@ void create_corridor(void) {
   if (m->gr[m->dr[n]]->drv == 4) {
     idc = get_uniform_bound(0, 3);
 
-    if (m->gr[m->dr[n]]->drd == 0) cd = corridor_dir[0][idc];
-    else if (m->gr[m->dr[n]]->drd == 1) cd = corridor_dir[1][idc];
-    else if (m->gr[m->dr[n]]->drd == 2) cd = corridor_dir[2][idc];
-    else cd = corridor_dir[3][idc];
+    if (m->gr[m->dr[n]]->drd == 0) dr = corridor_dir[0][idc];
+    else if (m->gr[m->dr[n]]->drd == 1) dr = corridor_dir[1][idc];
+    else if (m->gr[m->dr[n]]->drd == 2) dr = corridor_dir[2][idc];
+    else dr = corridor_dir[3][idc];
 
-    dr = cd;
   } else dr = m->gr[m->dr[n]]->drd;
 
   if (dr == 0) {

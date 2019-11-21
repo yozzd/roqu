@@ -87,3 +87,19 @@ u16 get_uniform_bound(u16 lower, u16 upper) {
   return floor(get_uniform() * (max - min + 1)) + min;
 }
 
+i16 get_weighted_value(u8 m, u8 n, u8 arr[m][n]) {
+  u8 t = 0, p = 0, r;
+
+  for (u8 i = 0; i < m; i++) {
+    t += arr[i][1];
+  }
+
+  r = get_uniform() * t;
+
+  for (u8 i = 0; i < m; i++) {
+    p += arr[i][1];
+    if (r < p) return arr[i][0];
+  }
+
+  return -1;
+};

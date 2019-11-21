@@ -12,6 +12,7 @@ static u16 grcap = 10, ptcap = 10, drcap = 10;
 void delete_door_arr(u16 id) {
   m->gr[m->dr[id]]->drv = 0;
   m->gr[m->dr[id]]->drd = 4;
+
   for(u16 i = 0; i < m->sdr; i++){
     m->dr[id + i] = m->dr[id + i + 1];
   }
@@ -110,6 +111,16 @@ static void create_walls(void) {
   }
 }
 
+static u16 count_corridor_door(void) {
+  u16 c = 0;
+
+  for (u16 i = 0; i < m->spt; i++) {
+    if (m->gr[m->pt[i]]->drv == 4) c++;
+  }
+
+  return c;
+}
+
 void free_map(void) {
   for (u16 i = 0; i < HEIGHT * WIDTH; i++) {
     free(m->gr[i]);
@@ -122,7 +133,9 @@ void free_map(void) {
 }
 
 void init_map(void) {
-  u8 i = 0, attempt = 100, idx;
+  u8 i = 0, attempt = 100;
+  u8 weighted[2][2] = {{0, 6}, {1, 4}};
+  i16 idx;
 
   new_map();
   first_room();
@@ -130,10 +143,11 @@ void init_map(void) {
   do {
     i++;
 
-    create_corridor();
-    idx = get_uniform_bound(0, 1);
+    if (count_corridor_door() > 0) idx = get_weighted_value(2, 2, weighted);
+    else idx = 0;
+
     if (idx == 0) create_corridor();
-    else create_room();
+    else if (idx == 1) create_room();
   } while(i < attempt);
 
   create_walls();
